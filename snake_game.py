@@ -3,7 +3,6 @@ import time
 import random
 
 
-segments = []
 
 score = 0
 high_score = 0
@@ -17,7 +16,6 @@ s = turtle.Screen()
 s.title('Snake Game')
 s.bgcolor("black")
 s.setup(width=700, height=700)
-s.tracer(0)  # Turns off screen updates
 
 
 
@@ -78,22 +76,7 @@ food.goto(0,100)
 
 
 def move():
-    # Move the end segments first in reverse order
-    for i in range(len(segments)-1, 0, -1):
-        x = segments[i-1].xcor()
-        y = segments[i-1].ycor()
-        segments[i].goto(x,y)
-        
-        
-    # Move segment 0 to the head
-    if len(segments) > 0:
-        x = head.xcor()
-        y = head.ycor()
-        segments[0].goto(x,y)
-        
-        
-        
-    # Keep the snake moving in the same direction
+
     if head.direction == 'up':
         head.sety(head.ycor() + 10)
     if head.direction == 'down':
@@ -107,7 +90,7 @@ def move():
 
 
 
-# Functions that move snake in response to keyboard keys
+
 def go_up():
     if head.direction != 'down':
         head.direction = 'up'
@@ -128,17 +111,11 @@ def go_right():
 
 
 def collision():
-    time.sleep(0.5)
     head.goto(0,0)
     head.direction = 'stop'
     
     
-    # Hide the segments
-    for segment in segments:
-        segment.hideturtle()
-        
-    # Clear the segments list
-    segments.clear()
+
     
     
     # Reset the score
@@ -189,22 +166,14 @@ while True:
 
 
 
-    # Check if the snake eats the food
     if head.distance(food) < 20:
-        # Move the food to a random spot
         food.goto(random.randint(-290,290),random.randint(-290,290))
         
-        # Add a segment
-        new_segment = turtle.Turtle()
-        new_segment.shape('square')
-        new_segment.color("grey")
-        new_segment.penup()
-        
-        segments.append(new_segment)
+
         
         
         
-        # Shorten the delay - this increases speed of snake as it gets longer
+        #increases speed
         delay -= 0.001
         # Increase the score
         score += 1
@@ -218,18 +187,7 @@ while True:
     # Move the snake in the game
     move()
 
-    # Check for head collision with the body segments
-    for segment in segments:
-        if segment.distance(head) < 10:
-            collision()
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
+      
     # Delay so that we can see things move
     time.sleep(delay)
